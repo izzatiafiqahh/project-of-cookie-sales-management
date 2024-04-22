@@ -1,0 +1,159 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int MAX_TRANSACTIONS = 50;
+
+// Declaration of arrays to store sales data
+int transactionNo[MAX_TRANSACTIONS];
+string cookieType[MAX_TRANSACTIONS];
+int quantitySold[MAX_TRANSACTIONS];
+double pricePerUnit[MAX_TRANSACTIONS];
+string customerName[MAX_TRANSACTIONS];
+
+// Function to record sales
+void recordSales(int index) {
+    cout << "Enter details for transaction " << index + 1 << ":" << endl;
+    cout << "Cookie Type: ";
+    cin >> cookieType[index];
+    cout << "Quantity Sold: ";
+    cin >> quantitySold[index];
+    cout << "Price Per Unit:RM ";
+    cin >> pricePerUnit[index];
+    cout << "Customer Name: ";
+    cin >> customerName[index];
+    cout << endl;
+}
+
+// Function to calculate total revenue
+double calculateTotalRevenue() {
+    double totalRevenue = 0;
+    for (int i = 0; i < MAX_TRANSACTIONS; ++i) {
+        totalRevenue += quantitySold[i] * pricePerUnit[i];
+    }
+    return totalRevenue;
+}
+
+// Function to display sales records
+void displaySalesRecords() {
+    cout << "Sales Records:" << endl;
+    for (int i = 0; i < MAX_TRANSACTIONS; ++i) {
+        if (cookieType[i] != "") {
+            double total = quantitySold[i] * pricePerUnit[i];
+            cout << "Transaction No: " << i + 1 << endl;
+            cout << "Cookie Type: " << cookieType[i] << endl;
+            cout << "Quantity Sold: " << quantitySold[i] << endl;
+            cout << "Price Per Unit: " << pricePerUnit[i] << endl;
+            cout << "Customer Name: " << customerName[i] << endl;
+            cout << "Total Revenue: " << total << endl;
+            cout << endl;
+        }
+    }
+}
+
+// Function to find sales records by customer name
+void findSalesByCustomer(string name) {
+    cout << "Sales Records for Customer " << name << ":" << endl;
+    bool found = false;
+    for (int i = 0; i < MAX_TRANSACTIONS; ++i) {
+        if (customerName[i] == name) {
+            found = true;
+            double total = quantitySold[i] * pricePerUnit[i];
+            cout << "Transaction No: " << i + 1 << endl;
+            cout << "Cookie Type: " << cookieType[i] << endl;
+            cout << "Quantity Sold: " << quantitySold[i] << endl;
+            cout << "Price Per Unit: " << pricePerUnit[i] << endl;
+            cout << "Customer Name: " << customerName[i] << endl;
+            cout << "Total Revenue: " << total << endl;
+            cout << endl;
+        }
+    }
+    if (!found) {
+        cout << "No sales records found for customer " << name << endl;
+    }
+}
+
+// Function to update sales record
+void updateSalesRecord() {
+	int transactionNum;
+	cout << "Enter the transaction number to update: ";
+	cin >> transactionNum;
+	if (transactionNum < 1 || transactionNum > MAX_TRANSACTIONS || cookieType[transactionNum - 1] == "") {
+		cout << "Invalid transaction number" <<endl;
+		cout << "Update details for transaction " <<transactionNum << ":" <<endl;
+		
+		return;
+	}
+	cout << "Cookie type ("<< cookieType[transactionNum -1] << "): ";
+    cin >> cookieType[transactionNum - 1];
+    cout << "Quantity sold ("<< quantitySold[transactionNum -1] << "): ";
+    cin >> quantitySold[transactionNum - 1];
+    cout << "Price per unit (RM" <<pricePerUnit[transactionNum - 1] << "): ";
+    cin >> pricePerUnit[transactionNum - 1];
+    cout << "Customer Name ("<< customerName[transactionNum - 1] <<"): ";
+    cin >> customerName[transactionNum - 1];
+    cout << "Sales record updated succesfully:" <<endl;
+    cout << "Transaction No:" << transactionNum <<endl;
+    cout << "Cookie type:" <<cookieType[transactionNum - 1] <<endl;
+    cout << "Quantity sold:" <<quantitySold[transactionNum -1] <<endl;
+    cout << "Price per unit:RM "<<pricePerUnit[transactionNum - 1] <<endl;
+    cout << "Customer Name: " << customerName[transactionNum - 1] <<endl;
+    cout <<endl;
+}
+
+// 
+
+int main() {
+    char choice;
+    int index = 0;
+
+    do {
+        cout << "1. Record Sales" << endl;
+        cout << "2. Calculate Total Revenue" << endl;
+        cout << "3. Display Sales Records" << endl;
+        cout << "4. Find Sales by Customer" << endl;
+        cout << "5. Update Sales Record" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case '1':
+			{
+                if (index < MAX_TRANSACTIONS) {
+                    recordSales(index);
+                    transactionNo[index] = index + 1;
+                    index++;
+                } else {
+                    cout << "Maximum transactions reached." << endl;
+                }
+			    break;
+           }
+			case '2':  
+            {
+            	cout << "Total Revenue:RM  " << calculateTotalRevenue() << endl;
+                break;
+			}
+			case '3':
+				{
+					displaySalesRecords();
+                break;
+                }
+			case '4':
+				{
+					string name;
+                cout << "Enter customer name: ";
+                cin >> name;
+                findSalesByCustomer(name);
+                break;
+				}
+			case '5':
+				{
+					updateSalesRecord();
+                break;
+				}
+            }
+        }while (choice != '5');
+        
+    return 0;
+}
